@@ -1,0 +1,16 @@
+<!-- templates/add_client.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Add Client{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Add Client</h1>
+<form method="post">
+    <div class="form-group">
+        <label for="name">Client Name</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Client</button>
+</form>
+{% endblock %}
