@@ -1,0 +1,63 @@
+<!-- templates/client_details.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}{{ client.name }} - Details{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Client: {{ client.name }}</h1>
+
+<h2>Time Entries</h2>
+{% if time_entries %}
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Task</th>
+            <th>Duration (hours)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in time_entries %}
+        <tr>
+            <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ entry.task }}</td>
+            <td>{{ entry.duration }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No time entries for this client.</p>
+{% endif %}
+
+<h2>Expense Entries</h2>
+{% if expense_entries %}
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Amount ($)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expense_entries %}
+        <tr>
+            <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ expense.item }}</td>
+            <td>{{ expense.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No expense entries for this client.</p>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{{ url_for('add_time') }}" class="btn btn-primary">Add Time Entry</a>
+    <a href="{{ url_for('add_expense') }}" class="btn btn-primary">Add Expense Entry</a>
+    <a href="{{ url_for('clients') }}" class="btn btn-secondary">Back to Clients</a>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!-- templates/clients.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Clients - Time & Expense Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Clients</h1>
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Client Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client.name }}</td>
+            <td>
+                <a href="{{ url_for('view_client_details', client_id=client.id) }}" class="btn btn-primary btn-sm">View Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('add_client') }}" class="btn btn-success">Add New Client</a>
+{% endblock %}

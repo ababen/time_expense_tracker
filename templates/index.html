@@ -1,0 +1,61 @@
+<!-- templates/index.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Home - Time & Expense Tracker{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<h2>Time Entries</h2>
+{% if time_entries %}
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Task</th>
+            <th>Duration (hours)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in time_entries %}
+        <tr>
+            <td>{{ entry.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ entry.client.name }}</td>
+            <td>{{ entry.task }}</td>
+            <td>{{ entry.duration }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No time entries available.</p>
+{% endif %}
+
+<h2>Expense Entries</h2>
+{% if expense_entries %}
+<table class="table table-striped table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th>Date</th>
+            <th>Client</th>
+            <th>Item</th>
+            <th>Amount ($)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for expense in expense_entries %}
+        <tr>
+            <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
+            <td>{{ expense.client.name }}</td>
+            <td>{{ expense.item }}</td>
+            <td>{{ expense.amount }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No expense entries available.</p>
+{% endif %}
+{% endblock %}
