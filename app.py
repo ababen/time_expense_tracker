@@ -1,19 +1,23 @@
+
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from models import db, TimeEntry, ExpenseEntry, Client, User
+from models import TimeEntry, ExpenseEntry, Client, User
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms import RegistrationForm, LoginForm
+from werkzeug.middleware.proxy_fix import ProxyFix
+from db import db
+import os, psycopg2
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a secure key
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'
+app = Flask(__name__, static_folder='static')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+# app.config['SQLALCHEMY_DATABASE_URI'] =  'postgresql+psycopg2://expenseuser:Z0CWXZJG17Wgzwmo1xBm@localhost/time_expense_tracker_db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'  # SQLite database
 db.init_app(app)
 migrate = Migrate(app, db)
 
-with app.app_context():
-    db.create_all()
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -137,4 +141,4 @@ def view_client_details(client_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(host='0.0.0.0', debug=True)
